@@ -2,6 +2,8 @@ package pl.wsb.fitnesstracker.statistics.api;
 
 import java.util.Optional;
 
+import pl.wsb.fitnesstracker.models.Statistics;
+
 public interface StatisticsProvider {
 
     /**
