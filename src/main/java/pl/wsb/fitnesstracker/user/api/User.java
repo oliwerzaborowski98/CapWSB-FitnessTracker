@@ -6,8 +6,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.wsb.fitnesstracker.models.Statistics;
+import pl.wsb.fitnesstracker.models.HealthMetrics;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,11 +24,11 @@ public class User {
     @Nullable
     private Long id;
 
-    @Column(name = "lastName", nullable = false)
-    private String lastname;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "firstName", nullable = false)
-    private String firstname;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
@@ -33,17 +36,22 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Statistics statistics;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<HealthMetrics> healthMetrics;
+
     public User(
             final String firstName,
             final String lastName,
             final LocalDate birthdate,
             final String email) {
 
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.birthdate = birthdate;
         this.email = email;
-        this.firstname = firstName;
-        this.lastname = lastName;}
-        
+    }
 
 }
-

@@ -1,69 +1,42 @@
 package pl.wsb.fitnesstracker.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import pl.wsb.fitnesstracker.user.api.User;
 
 @Entity
 @Table(name = "Statistics")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Statistics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Nullable
     private Long id;
 
-    @Column(name = "totalTrainings")
-    private Integer totalTrainings;
-
-    @Column(name = "totalDistance")
-    private Double totalDistance;
-
-    @Column(name = "totalCaloriesBurned")
-    private Integer totalCaloriesBurned;
-
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    
-    public Statistics() {
-    }
+    @Column(name = "total_trainings", nullable = false)
+    private int totalTrainings;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "total_distance")
+    private double totalDistance;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "total_calories_burned")
+    private int totalCaloriesBurned;
 
-    public Integer getTotalTrainings() {
-        return totalTrainings;
-    }
-
-    public void setTotalTrainings(Integer totalTrainings) {
-        this.totalTrainings = totalTrainings;
-    }
-
-    public Double getTotalDistance() {
-        return totalDistance;
-    }
-
-    public void setTotalDistance(Double totalDistance) {
-        this.totalDistance = totalDistance;
-    }
-
-    public Integer getTotalCaloriesBurned() {
-        return totalCaloriesBurned;
-    }
-
-    public void setTotalCaloriesBurned(Integer totalCaloriesBurned) {
-        this.totalCaloriesBurned = totalCaloriesBurned;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+    public Statistics(User user, int totalTrainings, double totalDistance, int totalCaloriesBurned) {
         this.user = user;
+        this.totalTrainings = totalTrainings;
+        this.totalDistance = totalDistance;
+        this.totalCaloriesBurned = totalCaloriesBurned;
     }
 }
